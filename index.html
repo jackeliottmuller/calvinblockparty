@@ -4,22 +4,56 @@
     <meta charset="UTF-8">
     <title>CalvinBlockParty</title>
     <style>
-        html, body {
-          margin: 0;
-          padding: 0;
-          height: 100%;
-        }
-        img {
-          display: block;
-          max-width: 100%;
-          min-height: 1000px;
-          height: 95vh;
-          width: auto;
-          margin: 0 auto;
-        }
-      </style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+        min-height: 1000px;
+        height: calc(100vh - 100px);
+        width: auto;
+        margin: 0 auto;
+      }
+      #redirect {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+        z-index: 9999;
+      }
+      #cancel {
+        display: inline-block;
+        background-color: #fff;
+        color: #333;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        margin: 0 10px;
+      }
+    </style>
   </head>
   <body>
+    <div id="redirect">
+      <p>Redirecting to RSVP page...</p>
+      <button id="cancel">Cancel</button>
+    </div>
     <img src="/public/poster.png" alt="My Poster">
+    <script>
+      var redirectTimer = setTimeout(function() {
+        window.location.href = "https://partiful.com/e/YCaaQDd0hoVx9K8SBsn0";
+      }, 3000);
+
+      document.getElementById("cancel").addEventListener("click", function() {
+        clearTimeout(redirectTimer);
+        document.getElementById("redirect").style.display = "none";
+      });
+    </script>
   </body>
 </html>
