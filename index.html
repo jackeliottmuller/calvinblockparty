@@ -44,11 +44,10 @@
       <p>Redirecting to RSVP page...</p>
       <button id="cancel">Cancel</button>
     </div>
-    <img src="/public/poster.png" alt="My Poster">
     <script>
       var redirectTimer = setTimeout(function() {
         window.location.href = "https://partiful.com/e/YCaaQDd0hoVx9K8SBsn0";
-      }, 0);
+      });
 
       document.getElementById("cancel").addEventListener("click", function() {
         clearTimeout(redirectTimer);
