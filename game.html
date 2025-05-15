@@ -48,7 +48,7 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       grid-gap: 10px;
-      max-width: 800px;
+      max-width: 700px;
       width: 100%;
     }
     
@@ -64,6 +64,22 @@
       transition: transform 0.6s;
       transform-style: preserve-3d;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    /* Mobile responsive playing card aspect ratio */
+    @media (max-width: 768px) {
+      .card {
+        aspect-ratio: 2/3;
+      }
+      
+      pre {
+        font-size: 8px;
+        transform: scale(0.8);
+      }
+      
+      .card-name {
+        font-size: 10px;
+      }
     }
     
     .card-front, .card-back {
@@ -137,7 +153,7 @@
     }
 
     pre {
-      font-size: 8px;
+      font-size: 10px;
       line-height: 1.1;
       white-space: pre;
       color: #4FB3F6;
@@ -145,7 +161,9 @@
       text-align: center;
       font-weight: bold;
       text-shadow: none;
-      transform: scale(0.9);
+      transform: scale(1);
+      max-width: 100%;
+      overflow: hidden;
     }
 
     .restart {
@@ -253,15 +271,14 @@
    | |tap| |
    |_|___|_|`,
       
-      'guitar': `    ___
-   o|* *|o
-   o|* *|o
-    \\===/
-     |||
-     |||
-  ___|||___
- /   |||   \\
-   \\====/`,
+      'guitar': `  ___
+ o|*|o
+ o|*|o
+  \\=/
+   |
+ __|__
+/_|||_\\
+ \\===/`,
       
       'apartment': `  _______
  /       \\
@@ -296,12 +313,11 @@
  |H|__
 /_____\\`,
       
-      'music': `  ♪
+      'music': ` ♪
 ♪ ♫
- \\|||
-  \\||
-   \\|
-    |`,
+\\|||
+ \\||
+  \\|`,
       
       'dj': `   _____
    / ___ \\
@@ -312,32 +328,31 @@
  /|     |\\
 / |_____| \\`,
         
-      'lemonade': `    __
-    /  \\
-   /    \\
-  |      |
-  |      |
-  | ____ |
-  ||    ||
-  ||____||`,
+      'lemonade': `  __
+  /  \\
+ |    |
+ |    |
+ |____|
+ |    |
+ |____|`,
       
-      'twins': `  (·Y·) (·Y·)
-   ( | ) ( | )
-   / \\ / \\ / \\
-  /   Y   Y   \\`,
+      'twins': `(·Y·)(·Y·)
+ (|) (|)
+ /\\  /\\
+/  \\/  \\`,
       
-      'mural': `╔═══════╗
- ║\\~/\\~\\/║
- ║/~\\~\\~/║
- ║\\~\\/\\~/║
- ╚═══════╝`,
+      'mural': `╔═════╗
+║\\~/\\~║
+║/~\\~/║
+║\\~\\/~║
+╚═════╝`,
       
-      'face-painting': `   __
-   /  \\
-  | ★☺★|
-   \\__/
-    ||
-   _||_`,
+      'face-painting': ` __
+/  \\
+|★☺★|
+\\__/
+  ||
+ _||_`,
       
       'four-square': `┌───┬───┐
  │ 1 │ 2 │
@@ -352,11 +367,11 @@
   /#####\\
  /#######\\`,
       
-      'community': `  _   _   _
-  ( ) ( ) ( )
-   |   |   |
-  /|\\ /|\\ /|\\
- / | Y | Y | \\`
+      'community': `_  _  _
+( )( )( )
+ |  |  |
+/|\\//\\|\\
+/ | | | \\`
     };
 
     // List of all card types
@@ -378,6 +393,11 @@
       return shuffled.slice(0, 8);
     };
 
+    // Check if device is mobile
+    function isMobile() {
+      return window.innerWidth <= 768;
+    }
+    
     // Initialize the game
     const initGame = () => {
       const gameBoard = document.querySelector('.game-board');
@@ -417,18 +437,6 @@
         // Calculate x,y position in the grid
         const x = index % gridSize;
         const y = Math.floor(index / gridSize);
-        
-        // Generate unique rotation angles based on position
-        const rotation1 = -3 + (x * 0.5) + (y * 0.3);
-        const rotation2 = 2 - (x * 0.4) + (y * 0.2);
-        const rotation3 = -1 + (x * 0.3) - (y * 0.4);
-        const rotation4 = 3 - (x * 0.2) - (y * 0.5);
-        
-        // Generate unique positions based on position
-        const pos1 = 25 + (x * 2) - (y * 1);
-        const pos2 = 45 - (x * 1) + (y * 2);
-        const pos3 = 65 + (x * 1.5) - (y * 1.5);
-        const pos4 = 85 - (x * 1) - (y * 1);
         
         cardElement.innerHTML = `
           <div class="card-back"><div class="smiley">:)</div></div>
