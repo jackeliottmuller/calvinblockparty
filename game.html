@@ -86,9 +86,11 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-end;
       align-items: center;
       backface-visibility: hidden;
+      height: 100%;
+      box-sizing: border-box;
     }
     
     .card-back {
@@ -137,17 +139,24 @@
     }
 
     pre {
-      font-size: 10px;
-      line-height: 1.1;
+      font-size: 12px;
+      line-height: 1;
       white-space: pre;
       color: #4FB3F6;
-      margin: 0;
+      margin: 0 0 5px 0;
       text-align: center;
       font-weight: bold;
       text-shadow: none;
       transform: scale(1);
       max-width: 100%;
       overflow: hidden;
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 80%;
+      padding-top: 10px;
     }
 
     .restart {
@@ -187,12 +196,15 @@
 
     .card-name {
       font-size: 12px;
-      margin-top: 5px;
+      margin: 0;
       text-transform: capitalize;
       font-weight: bold;
       background-color: transparent;
       padding: 3px 6px;
       color: #4FB3F6;
+      width: 100%;
+      text-align: center;
+      height: auto;
     }
 
     /* Move the media query AFTER the default card-name definition */
@@ -202,12 +214,18 @@
       }
       
       pre {
-        font-size: 8px;
-        transform: scale(0.6);
+        font-size: 9px;
+        transform: scale(0.8);
+        line-height: 0.9;
+        margin-bottom: 2px;
+        min-height: 85%;
       }
       
       .card-name {
-        font-size: 10px;
+        font-size: 8px;
+        padding: 1px;
+        height: auto;
+        max-height: 15%;
       }
     }
 
