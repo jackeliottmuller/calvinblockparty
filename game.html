@@ -278,16 +278,14 @@
  │ ░░░░░░░░░░░ │
  └─────────────┘`,
 
-      'keg': `     .---.
-    /   _ \\
-    |  / \\ |
-    |  \\_/ |
-    \\     /
-     \\___/
-    _|===|_
-   / |   | \\
-   | |tap| |
-   |_|___|_|`,
+      'keg': `    _..._
+   /|=|=|\\
+  /||   ||\\
+  |||=o=||||
+  ||| 99||||
+  \\|    ||/
+   \\|=|=|/
+    '---'`,
       
       'guitar': `  ___
  o|*|o
@@ -405,10 +403,24 @@
 
     // Get random subset of cards for the game (8 pairs = 16 cards)
     const getRandomCards = () => {
-      // Shuffle array
-      const shuffled = [...cardTypes].sort(() => 0.5 - Math.random());
+      // Shuffle array using Fisher-Yates algorithm
+      const array = [...cardTypes];
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
       // Get first 8 items
-      return shuffled.slice(0, 8);
+      return array.slice(0, 8);
+    };
+
+    // Fisher-Yates shuffle algorithm
+    const shuffleArray = (array) => {
+      const shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
     };
 
     // Check if device is mobile
@@ -440,8 +452,8 @@
         cards.push({ name: cardType, ascii: asciiArt[cardType], matched: false });
       }
       
-      // Shuffle cards
-      cards.sort(() => 0.5 - Math.random());
+      // Shuffle cards with Fisher-Yates algorithm
+      cards = shuffleArray(cards);
       
       // Calculate grid positions
       const gridSize = 4; // 4x4 grid
@@ -467,6 +479,22 @@
         cardElement.addEventListener('click', () => flipCard(index));
         gameBoard.appendChild(cardElement);
       });
+      
+      // Log card positions for debugging
+      //console.log("--- CARD POSITIONS ---");
+      const positionMap = [];
+      
+      for (let y = 0; y < 4; y++) {
+        const row = [];
+        for (let x = 0; x < 4; x++) {
+          const index = y * 4 + x;
+          row.push(cards[index].name);
+        }
+        positionMap.push(row);
+      }
+      
+      //console.table(positionMap); // Display as formatted table
+      //console.log("--- END CARD POSITIONS ---");
     };
 
     // Flip a card
