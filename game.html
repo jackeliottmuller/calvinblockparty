@@ -88,6 +88,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      backface-visibility: hidden;
     }
     
     .card-back {
@@ -95,6 +96,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      backface-visibility: hidden;
     }
     
     .smiley {
@@ -135,7 +137,7 @@
     }
 
     pre {
-      font-size: 10px;
+      font-size: 8px;
       line-height: 1.1;
       white-space: pre;
       color: #4FB3F6;
@@ -143,6 +145,7 @@
       text-align: center;
       font-weight: bold;
       text-shadow: none;
+      transform: scale(0.9);
     }
 
     .restart {
@@ -156,10 +159,6 @@
       font-size: 16px;
     }
 
-    .restart:hover {
-      background-color: #555;
-    }
-
     .game-over {
       display: none;
       position: fixed;
@@ -167,7 +166,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
+      background-color: transparent;
       color: white;
       flex-direction: column;
       align-items: center;
@@ -185,14 +184,23 @@
     }
 
     .card-name {
-      font-size: 14px;
+      font-size: 12px;
       margin-top: 5px;
       text-transform: capitalize;
       font-weight: bold;
-      background-color: rgba(79, 179, 246, 0.2);
+      background-color: transparent;
       padding: 3px 6px;
-      border-radius: 8px;
       color: #4FB3F6;
+    }
+
+    .confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 9;
+      pointer-events: none;
     }
   </style>
 </head>
@@ -514,13 +522,59 @@
       const message = document.querySelector('.win-message');
       
       if (isWin) {
-        message.textContent = 'Congratulations! You won!';
+        message.textContent = ''; //'Congratulations! You won!';
+        createConfetti();
       } else {
-        message.textContent = 'Game Over! Try again!';
+        message.textContent = ''; //Game Over! Try again!';
       }
       
       gameOver.classList.add('show');
     };
+
+    // Create confetti effect
+    const createConfetti = () => {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      document.body.appendChild(confetti);
+      
+      const colors = ['#FFFD74', '#4FB3F6', '#FF4081', '#7CFC00', '#FFA500', '#9C27B0'];
+      
+      // Create 100 pieces of confetti
+      for (let i = 0; i < 100; i++) {
+        const piece = document.createElement('div');
+        piece.style.position = 'absolute';
+        piece.style.width = Math.random() * 10 + 5 + 'px';
+        piece.style.height = Math.random() * 10 + 5 + 'px';
+        piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.left = Math.random() * 100 + '%';
+        piece.style.top = -20 + 'px';
+        piece.style.opacity = Math.random() + 0.5;
+        piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+        
+        // Add animation
+        piece.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+        confetti.appendChild(piece);
+      }
+      
+      // Remove confetti after animation completes
+      setTimeout(() => {
+        document.body.removeChild(confetti);
+      }, 5000);
+    };
+
+    // Add fall animation to CSS
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fall {
+        0% {
+          transform: translateY(0) rotate(0);
+        }
+        100% {
+          transform: translateY(100vh) rotate(360deg);
+        }
+      }
+    `;
+    document.head.appendChild(style);
 
     // Event listeners
     document.querySelectorAll('.restart').forEach(button => {
