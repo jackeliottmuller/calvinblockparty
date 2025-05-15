@@ -66,22 +66,6 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
     
-    /* Mobile responsive playing card aspect ratio */
-    @media (max-width: 768px) {
-      .card {
-        aspect-ratio: 2/3;
-      }
-      
-      pre {
-        font-size: 7px;
-        transform: scale(0.6);
-      }
-      
-      .card-name {
-        font-size: 5px;
-      }
-    }
-    
     .card-front, .card-back {
       position: absolute;
       width: 100%;
@@ -209,6 +193,22 @@
       background-color: transparent;
       padding: 3px 6px;
       color: #4FB3F6;
+    }
+
+    /* Move the media query AFTER the default card-name definition */
+    @media (max-width: 768px) {
+      .card {
+        aspect-ratio: 2/3;
+      }
+      
+      pre {
+        font-size: 12px;
+        transform: scale(0.6);
+      }
+      
+      .card-name {
+        font-size: 10px;
+      }
     }
 
     .confetti {
